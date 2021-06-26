@@ -1,0 +1,82 @@
+def add_time(start, duration, day = None):
+    callender = {
+        "saturday":1,
+        "sunday":2,
+        "monday":3,
+        "tuesday":4,
+        "wednesday":5,
+        "thursday":6,
+        "friday":7
+    }
+    callender_upper = {
+        0: "Friday",
+        1: "Saturday",
+        2: "Sunday",
+        3: "Monday",
+        4: "Tuesday",
+        5: "Wednesday",
+        6: "Thursday",
+        7: "Friday"
+    }
+    hour_result = [0, 0]
+    start = start.split()
+    start[0] = start[0].split(":")
+    if start[1] == "PM":
+        start[0][0] = str(int(start[0][0]) + 12)
+    duration = duration.split(":")
+    hour_result = [int(start[0][0]) + int(duration[0]), int(start[0][1]) + int(duration[1])]
+
+    if hour_result[1] > 59:
+        hour_result[0] = hour_result[0] + 1
+        hour_result[1] = hour_result[1] - 60
+
+    remain = (hour_result[0] % 24)
+    days = int(hour_result[0] / 24)
+    hour_result[0] = remain
+
+    if hour_result[0] == 12:
+        am_pm = "PM"
+    elif hour_result[0] > 12:
+        am_pm = "PM"
+        hour_result[0] = hour_result[0] - 12
+    else:
+        am_pm = "AM"
+
+    if hour_result[0] == 0 and am_pm == "AM":
+        hour_result[0] = 12
+
+
+    if hour_result[1] < 10:
+        if day is not None:
+            if days == 0:
+                return str(hour_result[0]) + ":0" + str(hour_result[1]) + " " + str(am_pm) + ", " + str(callender_upper[(callender[day.lower()] + days) % 7])
+            elif days == 1:
+                return str(hour_result[0]) + ":0" + str(hour_result[1]) + " " + str(am_pm) + ", " + str(callender_upper[(callender[day.lower()] + days) % 7]) + " (next day)"
+            else:
+                return str(hour_result[0]) + ":0" + str(hour_result[1]) + " " + str(am_pm) + ", " + str(callender_upper[(callender[day.lower()] + days) % 7]) + " (" + str(days) + " days later)"
+        else:
+            if days == 0:
+                return str(hour_result[0]) + ":0" + str(hour_result[1]) + " " + str(am_pm)
+            elif days == 1:
+                return str(hour_result[0]) + ":0" + str(hour_result[1]) + " " + str(am_pm) + " (next day)"
+            else:
+                return str(hour_result[0]) + ":0" + str(hour_result[1]) + " " + str(am_pm) + " (" + str(days) + " days later)"
+    else:
+        if day is not None:
+            if days == 0:
+                return str(hour_result[0]) + ":" + str(hour_result[1]) + " " + str(am_pm) + ", " + str(callender_upper[(callender[day.lower()] + days) % 7])
+            elif days == 1:
+                return str(hour_result[0]) + ":" + str(hour_result[1]) + " " + str(am_pm) + ", " + str(callender_upper[(callender[day.lower()] + days) % 7]) + " (next day)"
+            else :
+                return str(hour_result[0]) + ":" + str(hour_result[1]) + " " + str(am_pm) + ", " + str(callender_upper[(callender[day.lower()] + days) % 7]) + " (" + str(days) + " days later)"
+        else:
+            if days == 0:
+                return str(hour_result[0]) + ":" + str(hour_result[1]) + " " + str(am_pm)
+            elif days == 1:
+                return str(hour_result[0]) + ":" + str(hour_result[1]) + " " + str(am_pm) + " (next day)"
+            else:
+                return str(hour_result[0]) + ":" + str(hour_result[1]) + " " + str(am_pm) + " (" + str(days) + " days later)"
+
+
+print(add_time("11:06 PM", "2:02"))
+print(add_time("11:06 PM", "24:50", "FriDaY"))
